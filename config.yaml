@@ -1,0 +1,35 @@
+datasets:
+  nyc_taxi:
+    path: "data/raw/nyc_taxi_sample.csv"
+    id_column: "id"
+    datetime_columns: ["pickup_datetime", "dropoff_datetime"]
+    target_column: null
+  telco_churn:
+    path: "data/raw/telco_churn.csv"
+    id_column: "Customer ID"
+    target_column: "Customer Status"
+    datetime_columns: []
+
+dq_rules:
+  missing_threshold: 0.1      # 10% missing → flag
+  duplicate_key: true
+  outlier_std_threshold: 3.0
+  invalid_zero_fare: true
+  negative_values: true
+
+anomaly_detection:
+  method: "isolation_forest"
+  contamination: 0.03
+  random_state: 42
+
+llm:
+  provider: "openai"
+  model: "gpt-4.1-mini"   # or similar
+  max_tokens: 512
+
+scorecard:
+  weights:
+    completeness: 0.25
+    validity: 0.25
+    consistency: 0.25
+    accuracy_proxy: 0.25
